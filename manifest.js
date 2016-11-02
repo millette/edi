@@ -38,11 +38,16 @@ const manifest = {
         }
       }
     },
+    { plugin: 'h2o2' },
     { plugin: 'inert' },
     { plugin: 'vision' },
     {
       plugin: './server/api/index',
       options: { routes: { prefix: '/api' } }
+    },
+    {
+      plugin: './server/pro/index',
+      options: { routes: { prefix: '/pro' } }
     },
     {
       plugin: {

@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <title>hapi-demo</title>
+  <link rel="stylesheet" media="all" href="/css/foundation.css">
+</head>
+<body>
+<div class="row column">
+<h1><%- data.__('Bienvenue à la démonstration hapi/lodash') %></h1>
+<p class="lead">Démonstration de <a href="http://hapijs.com/api">hapi</a> et <a href="https://lodash.com/docs">lodash</a> (pour ses <i>templates</i>).</p>
+<p>
+Les données sont toutes accessibles dans l'object <code>data</code>.
+On utilise ensuite le langage JavaScript pour faire des boucles. Par exemple:
+</p>
+<h2><%- data.__('Liste %s', '#1') %></h2>
+<pre><code>&lt;ol&gt;
+  &lt;% <strong>data.items.forEach((item) =&gt; {</strong> %&gt;
+  &lt;li&gt;&lt;%- item %&gt;&lt;/li&gt;
+  &lt;% }) %&gt;
+&lt;/ol&gt;</code></pre>
+
+<h3>Résultat</h3>
+<ol>
+  <% data.items.forEach((item) => { %>
+  <li><%- item %></li>
+  <% }) %>
+</ol>
+
+<h2><%- data.__('Liste %s', '#2') %></h2>
+<p>On peut aussi utiliser les fonctions lodash directement:</p>
+<pre><code>&lt;ol&gt;
+  &lt;% <strong>_(data.items2).each((item) =&gt; {</strong> %&gt;
+  &lt;li&gt;&lt;%- item %&gt;&lt;/li&gt;
+  &lt;% }) %&gt;
+&lt;/ol&gt;</code></pre>
+<h3>Résultat</h3>
+<ol>
+  <% _(data.items2).each((item) => { %>
+  <li><%- item %></li>
+  <% }) %>
+</ol>
+<h2>Suite</h2>
+<p>La suite, à propos des <a href="partials">bouts de <i>templates</i> (<i>partials</i>)</a>.</p>
+<%= partials.foot(data) %>

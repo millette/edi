@@ -1,0 +1,16 @@
+{
+	"Liste %s": "Liste %s",
+	"Bienvenue à la démonstration hapi/lodash": "Bienvenue à la démonstration hapi/lodash",
+	"Support multilingue": "Support multilingue",
+	"Exemple": "Exemple",
+	"%s cheval": {
+		"one": "%s cheval",
+		"other": "%s chevaux"
+	},
+	"%s livre": {
+		"one": "%s livre",
+		"other": "%s livres"
+	},
+	"en": "en",
+	"Switch to English": "Switch to English"
+}

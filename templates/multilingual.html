@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<%= partials.head(data) %>
+<body>
+<div class="row column">
+<h1><a href="/<%- data.languageCode %>/">Démo</a></h1>
+<h2><%- data.__('Support multilingue') %></h1>
+<p class="lead">Démonstration de <a href="http://hapijs.com/api">hapi</a>
+et <a href="https://lodash.com/docs">lodash</a> (pour ses <i>templates</i>).</p>
+<p>Le support des langues repose sur le module
+<a href="https://github.com/mashpie/i18n-node">i18n</a> via le <i>plugin</i>
+<a href="https://github.com/codeva/hapi-i18n">hapi-i18n</a>. Le <i>plugin</i>
+est configuré dans le fichier <code>manifest.js</code> qui énumère
+les langues supportées (fr, en, etc.) et donne le répertoire des fichiers
+de chaines traduites (<code>locales/</code> dans notre exemple).</p>
+<h2><%- data.__('Exemple') %></h2>
+<p>Le titre précédent («Exemple» en français) sera traduit avec la méthode
+<code>__()</code> de l'objet <code>data</code> comme ceci:</p>
+<pre><code><%- '<h2>\<\%- data.__(\'Exemple\') \%\></h2>' %></code></pre>
+<h2>Les traductions</h2>
+<p>Le texte qui apparait en argument de <code>data.__()</code> se trouve dans
+les fichiers <code>fr.json</code> et <code>en.json</code>
+du répertoire <code>locales/</code>. En developpement, les chaines seront
+insérées automatiquement dans les fichiers json dès qu'on visitera la page
+dans le fureteur. Il suffit de trouver les nouvelles chaines dans le fichier
+<code>locales/en.json</code> et de les traduire.</p>
+<h2>Pluriels</h2>
+<p>Le <i>plugin</i> supporte aussi les formes singuliers et pluriels,
+si on utilise une chaine variable. Par exemple:</p>
+<p><%- data.__n('%s cheval', '%s chevaux', 3) %></p>
+<p><%- data.__n('%s livre', '%s livres', 1) %></p>
+<p>S'écrit ainsi:</p>
+<pre><code><%- `<p>\<\%- data.__n('%s cheval', '%s chevaux', 3) \%\></p>
+<p>\<\%- data.__n('%s livre', '%s livres', 1) \%\></p>` %></code></pre>
+<h2>Suite</h2>
+<p>La suite, à propos des <a href="abc">abc...</a>.</p>
+<%= partials.foot(data) %>

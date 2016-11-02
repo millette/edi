@@ -23,13 +23,15 @@
   "dependencies": {
     "confidence": "3.x.x",
     "glue": "4.x.x",
+    "h2o2": "AVVS/h2o2",
     "hapi": "15.x.x",
     "hapi-i18n": "^1.0.3",
     "hoek": "4.x.x",
     "inert": "^4.0.2",
     "lodash": "^4.16.6",
     "lodash-vision": "^0.0.1",
-    "vision": "4.x.x"
+    "vision": "4.x.x",
+    "wreck": "^10.0.0"
   },
   "devDependencies": {
     "code": "3.x.x",

@@ -22,7 +22,10 @@ exports.register = (server, options, next) => {
     Wreck.read(res, { json: true }, go.bind(null, reply, res))
   }
 
-  const go = (reply, res, err, payload) => reply(payload).headers = res.headers
+  const go = (reply, res, err, payload) => {
+    reply(payload).headers = res.headers
+  }
+
   const go2 = (reply, res, err, payload) => {
     let tpl
     let obj

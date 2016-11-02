@@ -33,7 +33,7 @@ const manifest = {
           autoReload: Config.get('/i18n/autoReload'),
           updateFiles: Config.get('/i18n/updateFiles'),
           syncFiles: true,
-          indent: "  ",
+          indent: '  ',
           directory: 'locales'
         }
       }

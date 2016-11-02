@@ -13,7 +13,7 @@ exports.register = (server, options, next) => {
   const mapper = (request, callback) => {
     const it = ['http://localhost:5990/ya']
     if (request.params.pathy) { it.push(request.params.pathy) }
-    callback(null, it.join('/'), { accept: 'application/json' })
+    callback(null, it.join('/') + '?include_docs=true', { accept: 'application/json' })
   }
 
   const responder = (go, err, res, request, reply, settings, ttl) => {
@@ -23,7 +23,21 @@ exports.register = (server, options, next) => {
   }
 
   const go = (reply, res, err, payload) => reply(payload).headers = res.headers
-  const go2 = (reply, res, err, payload) => reply.view('woot', { doc: payload }).etag(res.headers.etag)
+  const go2 = (reply, res, err, payload) => {
+    let tpl
+    let obj
+    if (payload._id) {
+      tpl = 'doc'
+      obj = { doc: payload }
+    } else if (payload.rows) {
+      tpl = 'docs'
+      obj = { docs: payload.rows.map((d) => d.doc) }
+    } else {
+      tpl = 'woot'
+      obj = { doc: payload }
+    }
+    reply.view(tpl, obj).etag(res.headers.etag)
+  }
 
   server.route({
     method: 'GET',
@@ -54,5 +68,5 @@ exports.register = (server, options, next) => {
 
 exports.register.attributes = {
   name: 'pro',
-  dependencies: ['h2o2', 'vision']
+  dependencies: ['hapi-i18n', 'h2o2', 'vision']
 }

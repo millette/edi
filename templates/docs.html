@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<%= partials.head(data) %>
+<body>
+<div class="row column">
+<h2><%- data.__('Les docs') %></h2>
+<% _(data.docs).each((doc, i) => { %>
+<h3>Doc #<%- i + 1 %></h3>
+<pre>
+<%= JSON.stringify(doc, null, ' ') %>
+</pre>
+<% }) %>
+<%= partials.foot(data) %>

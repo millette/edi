@@ -46,8 +46,11 @@ const manifest = {
       options: { routes: { prefix: '/api' } }
     },
     {
-      plugin: './server/pro/index',
-      options: { routes: { prefix: '/pro' } }
+      plugin: {
+        register: './server/pro/index',
+        options: { templateCached: Config.get('/cache/web') }
+      },
+      options: { routes: { prefix: '/{languageCode}/pro' } }
     },
     {
       plugin: {

@@ -7,6 +7,7 @@ const Hapi = require('hapi')
 const Vision = require('vision')
 const Inert = require('inert')
 const I18N = require('hapi-i18n')
+const ContextApp = require('hapi-context-app')
 const HomePlugin = require('../../../server/web/index')
 
 const lab = exports.lab = Lab.script()
@@ -14,9 +15,11 @@ let request
 let server
 
 lab.beforeEach((done) => {
-  const plugins = [Inert, Vision, HomePlugin]
+  const plugins = [ContextApp, Inert, Vision, HomePlugin]
   server = new Hapi.Server()
   server.connection({ port: Config.get('/port/web') })
+
+  server.settings.app = { siteTitle: 'Super titre pour un super site' }
 
   server.register(
     {

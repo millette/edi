@@ -1,6 +1,7 @@
 'use strict'
 
 const Wreck = require('wreck')
+const _ = require('lodash')
 
 exports.register = (server, options, next) => {
   server.views({
@@ -19,14 +20,22 @@ exports.register = (server, options, next) => {
   const responder = (go, err, res, request, reply, settings, ttl) => {
     // if (err) { return reply(err) } // FIXME: how to test?
     if (res.statusCode >= 400) { return reply(res.statusMessage).code(res.statusCode) }
-    Wreck.read(res, { json: true }, go.bind(null, reply, res))
+    Wreck.read(res, { json: true }, go.bind(null, res, request, reply))
   }
 
-  const go = (reply, res, err, payload) => {
+  const go = (res, request, reply, err, payload) => {
+    // console.log(Object.keys(request))
+    // console.log('url:', request.url)
+    // console.log('languages:', request.languages)
+    payload.pathname = request.url.pathname
+    payload.languages = _.uniq(request.languages)
     reply(payload).headers = res.headers
   }
 
-  const go2 = (reply, res, err, payload) => {
+  const go2 = (res, request, reply, err, payload) => {
+    // console.log(Object.keys(request))
+    // console.log('url:', request.url)
+    // console.log('languages:', request.languages)
     let tpl
     let obj
     if (payload._id) {
@@ -39,6 +48,8 @@ exports.register = (server, options, next) => {
       tpl = 'woot'
       obj = { doc: payload }
     }
+    obj.pathname = request.url.pathname
+    obj.languages = _.uniq(request.languages)
     reply.view(tpl, obj).etag(res.headers.etag)
   }
 

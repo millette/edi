@@ -10,6 +10,9 @@ const criteria = {
 const manifest = {
   $meta: 'This file defines the plot device.',
   server: {
+    app: {
+      siteTitle: 'Super titre pour un super site'
+    },
     debug: {
       request: ['error']
     },
@@ -38,6 +41,7 @@ const manifest = {
         }
       }
     },
+    { plugin: 'hapi-context-app' },
     { plugin: 'h2o2' },
     { plugin: 'inert' },
     { plugin: 'vision' },

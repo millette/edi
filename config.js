@@ -32,7 +32,7 @@ const config = {
     web: {
       $filter: 'env',
       test: 9090,
-      $default: 8090
+      $default: 8095
     }
   }
 }

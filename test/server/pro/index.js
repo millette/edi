@@ -52,6 +52,66 @@ lab.experiment('Home Page View', () => {
   lab.beforeEach((done) => {
     request = {
       method: 'GET',
+      url: '/d/666'
+    }
+
+    done()
+  })
+
+  lab.test('home page renders properly (fr)', (done) => {
+    server.inject(request, (response) => {
+      Code.expect(response.result).to.match(/object not found/i)
+      Code.expect(response.statusCode).to.equal(404)
+
+      done()
+    })
+  })
+})
+
+lab.experiment('Home Page View', () => {
+  lab.beforeEach((done) => {
+    request = {
+      method: 'GET',
+      url: '/d/'
+    }
+
+    done()
+  })
+
+  lab.test('home page renders properly (fr)', (done) => {
+    server.inject(request, (response) => {
+      Code.expect(response.result).to.match(/et bin/i)
+      Code.expect(response.statusCode).to.equal(200)
+
+      done()
+    })
+  })
+})
+
+lab.experiment('Home Page View', () => {
+  lab.beforeEach((done) => {
+    request = {
+      method: 'GET',
+      url: '/d/_all_docs'
+    }
+
+    done()
+  })
+
+  lab.test('home page renders properly (fr)', (done) => {
+    server.inject(request, (response) => {
+      Code.expect(response.result).to.match(/les docs/i)
+      Code.expect(response.statusCode).to.equal(200)
+
+      done()
+    })
+  })
+})
+
+lab.experiment('Home Page View', () => {
+  lab.beforeEach((done) => {
+    request = {
+      method: 'GET',
       url: '/d/abc'
     }
 
@@ -60,7 +120,6 @@ lab.experiment('Home Page View', () => {
 
   lab.test('home page renders properly (fr)', (done) => {
     server.inject(request, (response) => {
-      // console.log('REZ:', response.result)
       Code.expect(response.result).to.match(/un doc/i)
       Code.expect(response.statusCode).to.equal(200)
 

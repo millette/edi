@@ -17,7 +17,7 @@ exports.register = (server, options, next) => {
   }
 
   const responder = (go, err, res, request, reply, settings, ttl) => {
-    if (err) { return reply(err) }
+    // if (err) { return reply(err) } // FIXME: how to test?
     if (res.statusCode >= 400) { return reply(res.statusMessage).code(res.statusCode) }
     Wreck.read(res, { json: true }, go.bind(null, reply, res))
   }

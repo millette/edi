@@ -63,5 +63,5 @@ exports.register = function (server, options, next) {
 
 exports.register.attributes = {
   name: 'web',
-  dependencies: ['hapi-i18n', 'vision', 'inert']
+  dependencies: ['hapi-i18n', 'hapi-context-app', 'vision', 'inert']
 }

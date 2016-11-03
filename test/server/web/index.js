@@ -19,7 +19,7 @@ lab.beforeEach((done) => {
   server = new Hapi.Server()
   server.connection({ port: Config.get('/port/web') })
 
-  server.settings.app = { siteTitle: 'Super titre pour un super site' }
+  server.settings.app = { siteTitle: Config.get('/app/siteTitle') }
 
   server.register(
     {

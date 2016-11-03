@@ -9,6 +9,9 @@ const criteria = {
 const config = {
   $meta: 'This file configures the plot device.',
   projectName: 'hapi-demo',
+  app: {
+    siteTitle: 'Super titre pour un super site'
+  },
   i18n: {
     autoReload: {
       $filter: 'env',

@@ -11,7 +11,7 @@ const manifest = {
   $meta: 'This file defines the plot device.',
   server: {
     app: {
-      siteTitle: 'Super titre pour un super site'
+      siteTitle: Config.get('/app/siteTitle')
     },
     debug: {
       request: ['error']

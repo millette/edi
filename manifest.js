@@ -7,7 +7,10 @@ const criteria = { env: process.env.NODE_ENV }
 const manifest = {
   $meta: 'This file defines the plot device.',
   server: {
-    app: { siteTitle: Config.get('/app/siteTitle') },
+    app: {
+      siteTitle: Config.get('/app/siteTitle'),
+      languages: Config.get('/i18n/locales')
+    },
     debug: { request: ['error'] },
     connections: { routes: { security: true } }
   },

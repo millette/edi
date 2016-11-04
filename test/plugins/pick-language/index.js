@@ -19,7 +19,10 @@ lab.beforeEach((done) => {
   const plugins = [ContextApp, Inert, PickLanguage, Vision, HomePlugin]
   server = new Hapi.Server()
   server.connection({ port: Config.get('/port/web') })
-  server.settings.app = { siteTitle: Config.get('/app/siteTitle') }
+  server.settings.app = {
+    siteTitle: Config.get('/app/siteTitle'),
+    languages: Config.get('/i18n/locales')
+  }
 
   server.register(
     {

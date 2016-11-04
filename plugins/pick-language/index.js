@@ -1,14 +1,14 @@
 'use strict'
 
-const _ = require('lodash')
+const Config = require('../../config')
 
 exports.register = function (server, options, next) {
   server.ext('onPreResponse', (request, reply) => {
+    server.settings.app.languages = Config.get('/i18n/locales')
     if (!request.i18n || !request.response) { return reply.continue() }
     if (request.response.variety === 'view') {
       request.response.source.context.pathparts = request.url.pathname.split('/').slice(1)
     }
-    server.settings.app.languages = _.uniq(request.languages)
     return reply.continue()
   })
 
@@ -17,5 +17,5 @@ exports.register = function (server, options, next) {
 
 exports.register.attributes = {
   name: 'pick-language',
-  dependencies: ['hapi-i18n', 'vision']
+  dependencies: ['hapi-context-app', 'hapi-i18n', 'vision']
 }

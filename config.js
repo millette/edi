@@ -21,7 +21,8 @@ const config = {
   app: { siteTitle: 'Super titre pour un super site' },
   i18n: {
     autoReload: defTrue,
-    updateFiles: defTrue
+    updateFiles: defTrue,
+    locales: ['fr', 'en']
   },
   cache: { web: defFalse },
   port: {

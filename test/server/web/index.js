@@ -24,7 +24,7 @@ lab.beforeEach((done) => {
     {
       register: I18N,
       options: {
-        locales: ['fr', 'en'],
+        locales: Config.get('/i18n/locales'),
         directory: 'locales'
       }
     },

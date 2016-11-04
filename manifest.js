@@ -20,7 +20,7 @@ const manifest = {
       plugin: {
         register: 'hapi-i18n',
         options: {
-          locales: ['fr', 'en'],
+          locales: Config.get('/i18n/locales'),
           defaultLocale: 'fr',
           autoReload: Config.get('/i18n/autoReload'),
           updateFiles: Config.get('/i18n/updateFiles'),

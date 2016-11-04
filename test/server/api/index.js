@@ -15,9 +15,7 @@ lab.beforeEach((done) => {
   server = new Hapi.Server()
   server.connection({ port: Config.get('/port/web') })
   server.register(plugins, (err) => {
-    if (err) {
-      return done(err)
-    }
+    if (err) { return done(err) }
 
     done()
   })

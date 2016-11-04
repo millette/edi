@@ -18,7 +18,6 @@ lab.beforeEach((done) => {
   const plugins = [ContextApp, Inert, Vision, HomePlugin]
   server = new Hapi.Server()
   server.connection({ port: Config.get('/port/web') })
-
   server.settings.app = { siteTitle: Config.get('/app/siteTitle') }
 
   server.register(
@@ -29,18 +28,11 @@ lab.beforeEach((done) => {
         directory: 'locales'
       }
     },
-    function (err) {
-      if (err) {
-        return done(err)
-      }
-    }
+    (err) => { if (err) { return done(err) } }
   )
 
   server.register(plugins, (err) => {
-    if (err) {
-      return done(err)
-    }
-
+    if (err) { return done(err) }
     server.views({
       engines: { html: require('lodash-vision') },
       path: './server/web'

@@ -1,7 +1,7 @@
 'use strict'
 
 const Wreck = require('wreck')
-const _ = require('lodash')
+// const _ = require('lodash')
 
 exports.register = (server, options, next) => {
   server.views({
@@ -27,8 +27,8 @@ exports.register = (server, options, next) => {
     // console.log(Object.keys(request))
     // console.log('url:', request.url)
     // console.log('languages:', request.languages)
-    payload.pathname = request.url.pathname
-    payload.languages = _.uniq(request.languages)
+    // payload.pathname = request.url.pathname
+    // payload.languages = _.uniq(request.languages)
     reply(payload).headers = res.headers
   }
 
@@ -48,8 +48,8 @@ exports.register = (server, options, next) => {
       tpl = 'woot'
       obj = { doc: payload }
     }
-    obj.pathname = request.url.pathname
-    obj.languages = _.uniq(request.languages)
+    // obj.pathname = request.url.pathname
+    // obj.languages = _.uniq(request.languages)
     reply.view(tpl, obj).etag(res.headers.etag)
   }
 

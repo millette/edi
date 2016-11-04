@@ -11,8 +11,9 @@
     "one": "%s book",
     "other": "%s books"
   },
-  "en": "fr",
-  "Switch to English": "En français svp",
+  "en": "English",
   "Les docs": "The docs",
-  "Super titre pour un super site": "Super title for a super site"
+  "Super titre pour un super site": "Super title for a super site",
+  "Choisir la langue": "Pick your language",
+  "fr": "Français"
 }

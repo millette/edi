@@ -24,7 +24,6 @@ const manifest = {
           defaultLocale: 'fr',
           autoReload: Config.get('/i18n/autoReload'),
           updateFiles: Config.get('/i18n/updateFiles'),
-          syncFiles: true,
           indent: '  ',
           directory: 'locales'
         }
@@ -34,6 +33,7 @@ const manifest = {
     { plugin: 'h2o2' },
     { plugin: 'inert' },
     { plugin: 'vision' },
+    { plugin: './plugins/pick-language/index' },
     {
       plugin: './server/api/index',
       options: { routes: { prefix: '/api' } }

@@ -1,1 +1,14 @@
-<p><a href="/<%- data.__('en') %>/"><%- data.__('Switch to English') %></a></p>
+<h3><%- data.__('Choisir la langue') %></h3>
+<ul class="menu">
+<% _(data.app.languages).each((l) => {
+  data.pathparts[0] = l
+%>
+  <% if (l === data.languageCode) { %>
+  <li class="active">
+  <% } else { %>
+  <li>
+  <% } %>
+    <a href="/<%- data.pathparts.join('/') %>"><%- data.__(l) %></a>
+  </li>
+<% }) %>
+</ul>

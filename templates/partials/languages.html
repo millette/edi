@@ -3,11 +3,11 @@
 <% _(data.app.languages).each((l) => {
   data.pathparts[0] = l
 %>
-  <% if (l === data.languageCode) { %>
+<% if (l === data.languageCode) { %>
   <li class="active">
-  <% } else { %>
+<% } else { %>
   <li>
-  <% } %>
+<% } %>
     <a href="/<%- data.pathparts.join('/') %>"><%- data.__(l) %></a>
   </li>
 <% }) %>

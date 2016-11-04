@@ -1,32 +1,29 @@
 'use strict'
 
 const Confidence = require('confidence')
-
 const criteria = { env: process.env.NODE_ENV }
+
+const defTrue = {
+  $filter: 'env',
+  prod: false,
+  $default: true
+}
+
+const defFalse = {
+  $filter: 'env',
+  prod: true,
+  $default: false
+}
 
 const config = {
   $meta: 'This file configures the plot device.',
   projectName: 'hapi-demo',
   app: { siteTitle: 'Super titre pour un super site' },
   i18n: {
-    autoReload: {
-      $filter: 'env',
-      prod: false,
-      $default: true
-    },
-    updateFiles: {
-      $filter: 'env',
-      prod: false,
-      $default: true
-    }
+    autoReload: defTrue,
+    updateFiles: defTrue
   },
-  cache: {
-    web: {
-      $filter: 'env',
-      prod: true,
-      $default: false
-    }
-  },
+  cache: { web: defFalse },
   port: {
     web: {
       $filter: 'env',

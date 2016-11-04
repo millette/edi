@@ -2,16 +2,12 @@
 
 const Confidence = require('confidence')
 
-const criteria = {
-  env: process.env.NODE_ENV
-}
+const criteria = { env: process.env.NODE_ENV }
 
 const config = {
   $meta: 'This file configures the plot device.',
   projectName: 'hapi-demo',
-  app: {
-    siteTitle: 'Super titre pour un super site'
-  },
+  app: { siteTitle: 'Super titre pour un super site' },
   i18n: {
     autoReload: {
       $filter: 'env',
@@ -41,11 +37,5 @@ const config = {
 }
 
 const store = new Confidence.Store(config)
-
-exports.get = function (key) {
-  return store.get(key, criteria)
-}
-
-exports.meta = function (key) {
-  return store.meta(key, criteria)
-}
+exports.get = (key) => store.get(key, criteria)
+exports.meta = (key) => store.meta(key, criteria)

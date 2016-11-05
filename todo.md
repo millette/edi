@@ -7,6 +7,8 @@
 ## JSON content
 * Dangling commas
 * Cache contents (linked, how?)
+* Updates?
+* Import into CouchDB
 
 ## Site Structure (routes)
 * Main pages (about, faq, etc.)
@@ -16,11 +18,20 @@
 ## User roles
 * Anon
 * Connected
+* Actions
 
 ## Templates
 * Improve responsive layout
 * CSS/SASS: custom colors, etc.
 
 ## Database
-* Secondary indexes
+* Secondary indexes (views)
 * Pagination
+
+## Performance
+* Internal cache
+* Etags
+* Multiple databases
+* Multiple nodejs
+* HAProxy
+* Varnish

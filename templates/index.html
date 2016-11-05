@@ -5,6 +5,7 @@
 <div class="row column">
 <h1><%- data.__('Bienvenue à la démonstration hapi/lodash') %></h1>
 <p class="lead">Démonstration de <a href="http://hapijs.com/api">hapi</a> et <a href="https://lodash.com/docs">lodash</a> (pour ses <i>templates</i>).</p>
+<pre><%= JSON.stringify(data, null, ' ') %></pre>
 <p>
 Les données sont toutes accessibles dans l'object <code>data</code>.
 On utilise ensuite le langage JavaScript pour faire des boucles. Par exemple:

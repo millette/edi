@@ -34,6 +34,7 @@ const manifest = {
     },
     { plugin: './plugins/login/index' },
     { plugin: 'hapi-context-app' },
+    { plugin: 'hapi-context-credentials' },
     { plugin: 'h2o2' },
     { plugin: 'inert' },
     { plugin: 'vision' },

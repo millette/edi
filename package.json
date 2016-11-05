@@ -1,5 +1,5 @@
 {
-  "name": "hapi-demo",
+  "name": "edi",
   "version": "0.0.0",
   "description": "Hapi demonstration",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "lintall": "standard && npm run jsonlint",
     "lint": "standard"
   },
-  "repository": "millette/hapi-demo",
+  "repository": "millette/edi",
   "author": {
     "name": "Robin Millette",
     "email": "robin@millette.info",
@@ -27,11 +27,13 @@
     "hapi": "15.x.x",
     "hapi-auth-cookie": "^6.1.1",
     "hapi-context-app": "^0.2.1",
+    "hapi-context-credentials": "^2.0.0",
     "hapi-i18n": "^1.0.3",
     "hoek": "4.x.x",
     "inert": "^4.0.2",
     "lodash": "^4.16.6",
     "lodash-vision": "^0.0.1",
+    "nano": "^6.2.0",
     "vision": "4.x.x",
     "wreck": "^10.0.0"
   },

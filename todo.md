@@ -3,6 +3,7 @@
 ## Next
 * Login <https://github.com/hapijs/hapi-auth-cookie>
 * CouchDB users
+* Complete translations interface
 
 ## Details
 ### Login
@@ -34,10 +35,13 @@
 * Pagination
 
 ### Performance
+* Monitoring
 * Internal cache
 * Redis (cache, sessions)
 * Etags
-* Multiple databases
+* Multiple databases (replication)
 * Multiple nodejs
 * HAProxy
 * Varnish
+* Minify/Aggregate CSS
+* Minify/Aggregate JS

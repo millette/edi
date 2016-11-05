@@ -32,7 +32,7 @@ const manifest = {
         }
       }
     },
-    { plugin: 'hapi-auth-cookie' },
+    { plugin: './plugins/login/index' },
     { plugin: 'hapi-context-app' },
     { plugin: 'h2o2' },
     { plugin: 'inert' },

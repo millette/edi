@@ -1,6 +1,7 @@
 'use strict'
 
 // npm
+const _ = require('lodash')
 const pify = require('pify')
 const nano = require('nano')
 
@@ -11,16 +12,27 @@ const createUser = pify(dbUsers.insert, { multiArgs: true})
 
 const nextUrl = (request, reply) => reply.redirect(request.payload.next || '/')
 
+const userSelf = (name, cookie) => {
+  const dbSelf = nano({ url: 'http://localhost:5990/_users', cookie: cookie })
+  const getUser = pify(dbSelf.get, { multiArgs: true })
+  return Promise.all([getUser('org.couchdb.user:' + name), cookie])
+}
+
+const makeAccount = (doc, cookie) => {
+  const body = _.pick(doc, ['_id', '_rev', 'name', 'roles', 'fullname'])
+  body.cookie = cookie
+  return body
+}
+
 const login = function (request, reply) {
   if (request.auth.isAuthenticated) { return nextUrl(request, reply) }
   auth(request.payload.name, request.payload.password)
+    .then((result) => userSelf(request.payload.name, result[1]['set-cookie']))
     .then((result) => {
-      const body = result[0]
-      delete body.ok
-      body.cookie = result[1]['set-cookie']
-      request.server.app.cache.set(body.name, { account: body }, 0, (err) => {
+      const account = makeAccount(result[0][0], result[1])
+      request.server.app.cache.set(account.name, { account: account }, 0, (err) => {
         if (err) { return reply(err) }
-        request.cookieAuth.set({ sid: body.name })
+        request.cookieAuth.set({ sid: account.name })
         nextUrl(request, reply)
       })
     })
@@ -30,6 +42,18 @@ const login = function (request, reply) {
 const logout = function (request, reply) {
   request.cookieAuth.clear()
   nextUrl(request, reply)
+}
+
+const dbDeleteUser = (request) => {
+  const dbSelf = nano({ url: 'http://localhost:5990/_users', cookie: request.auth.credentials.cookie })
+  const destroyUser = pify(dbSelf.destroy, { multiArgs: true })
+  return destroyUser(request.auth.credentials._id, request.auth.credentials._rev)
+}
+
+const deleteUser = function (request, reply) {
+  dbDeleteUser(request)
+    .then(() => logout(request, reply))
+    .catch((err) => reply.boom(err.statusCode || 500, err))
 }
 
 const register = function (request, reply) {
@@ -75,6 +99,11 @@ exports.register = (server, options, next) => {
         method: 'POST',
         path: '/logout',
         config: { auth: { mode: 'required' }, handler: logout }
+      },
+      {
+        method: 'POST',
+        path: '/delete',
+        config: { auth: { mode: 'required' }, handler: deleteUser }
       }
     ])
   })

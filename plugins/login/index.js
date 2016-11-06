@@ -24,8 +24,9 @@ const login = function (request, reply) {
 }
 
 const logout = function (request, reply) {
+  const nextUrl = request.payload.next || '/'
   request.cookieAuth.clear()
-  return reply.redirect('/')
+  return reply.redirect(nextUrl)
 }
 
 exports.register = function (server, options, next) {

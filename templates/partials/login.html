@@ -1,6 +1,7 @@
 <% if (data.credentials) { %>
 <pre><%= JSON.stringify(data, null, ' ') %></pre>
 <form method="post" action="/logout">
+  <input type="hidden" name="next" value="/<%- data.pathparts.join('/') %>">
   <input class="button warning" type="submit" value="Logout">
 </form>
 <% } else { %>

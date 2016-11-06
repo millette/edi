@@ -1,6 +1,7 @@
 'use strict'
 
 // npm
+const Boom = require('boom')
 const _ = require('lodash')
 const pify = require('pify')
 const nano = require('nano')
@@ -32,11 +33,19 @@ const userEdit = (request) => {
   return getUser(request.auth.credentials._id)
     .then((result) => {
       if (request.payload.fullname) { result[0].fullname = request.payload.fullname }
-      const cookie = result[1]['set-cookie'] ? result[1]['set-cookie'] : request.auth.credentials.cookie
-      const account = makeAccount(result[0], cookie)
-      request.server.app.cache.set(account.name, { account: account }, 0)
-      return insertUser(result[0])
+      if (request.payload.newpassword) {
+        if (request.payload.newpassword !== request.payload.password2) { throw Boom.notAcceptable('Passwords don\'t match.') }
+        result[0].password = request.payload.newpassword
+      }
+      const account = makeAccount(result[0], result[1]['set-cookie'] || request.auth.credentials.cookie)
+      return new Promise((resolve, reject) => {
+        request.server.app.cache.set(account.name, { account: account }, 0, (err) => {
+          if (err) { return reject(err) }
+          resolve(result[0])
+        })
+      })
     })
+    .then((result) => insertUser(result))
 }
 
 const edit = function (request, reply) {

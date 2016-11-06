@@ -1,15 +1,19 @@
 'use strict'
 
+// npm
 const pify = require('pify')
 const nano = require('nano')
+
 const db = nano('http://localhost:5990/')
-const dbAuth = pify(db.auth, { multiArgs: true})
+const auth = pify(db.auth, { multiArgs: true})
+const dbUsers = db.use('_users')
+const createUser = pify(dbUsers.insert, { multiArgs: true})
 
 const nextUrl = (request, reply) => reply.redirect(request.payload.next || '/')
 
 const login = function (request, reply) {
   if (request.auth.isAuthenticated) { return nextUrl(request, reply) }
-  dbAuth(request.payload.name, request.payload.password)
+  auth(request.payload.name, request.payload.password)
     .then((result) => {
       const body = result[0]
       delete body.ok
@@ -30,8 +34,21 @@ const logout = function (request, reply) {
 
 const register = function (request, reply) {
   if (request.auth.isAuthenticated) { return nextUrl(request, reply) }
-  console.log(request.payload)
-  nextUrl(request, reply)
+  // TODO: Use Joi validation instead
+  if (request.payload.password !== request.payload.password2) { return reply.notAcceptable('Passwords don\'t match.') }
+  if (!request.payload.name) { return reply.notAcceptable('Name required.') }
+  if (!request.payload.password) { return reply.notAcceptable('Password required.') }
+  const doc = {
+    _id: 'org.couchdb.user:' + request.payload.name,
+    name: request.payload.name,
+    password: request.payload.password,
+    type: 'user',
+    roles: ['mmm']
+  }
+  if (request.payload.fullname) { doc.fullname = request.payload.fullname }
+  createUser(doc)
+    .then(() => login(request, reply))
+    .catch((err) => reply.boom(err.statusCode || 500, err))
 }
 
 exports.register = (server, options, next) => {

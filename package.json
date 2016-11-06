@@ -21,12 +21,12 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "boom": "^4.2.0",
     "confidence": "3.x.x",
     "glue": "4.x.x",
     "h2o2": "AVVS/h2o2",
     "hapi": "15.x.x",
     "hapi-auth-cookie": "^6.1.1",
+    "hapi-boom-decorators": "^2.1.0",
     "hapi-context-app": "^0.2.1",
     "hapi-context-credentials": "^2.0.0",
     "hapi-i18n": "^1.0.3",

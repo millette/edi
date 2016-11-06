@@ -1,6 +1,5 @@
 'use strict'
 
-const Boom = require('boom')
 const pify = require('pify')
 const nano = require('nano')
 const db = nano('http://localhost:5990/')
@@ -20,7 +19,7 @@ const login = function (request, reply) {
         reply.redirect(nextUrl)
       })
     })
-    .catch((err) => reply(Boom.wrap(err, err.statusCode || 500)))
+    .catch((err) => reply.boom(err.statusCode || 500, err))
 }
 
 const logout = function (request, reply) {
@@ -29,8 +28,14 @@ const logout = function (request, reply) {
   return reply.redirect(nextUrl)
 }
 
+const register = function (request, reply) {
+  const nextUrl = request.payload.next || '/'
+  if (request.auth.isAuthenticated) { return reply.redirect(nextUrl) }
+  return reply.redirect(nextUrl)
+}
+
 exports.register = function (server, options, next) {
-  server.register(require('hapi-auth-cookie'), options, (err) => {
+  server.register([require('hapi-boom-decorators'), require('hapi-auth-cookie')], options, (err) => {
     if (err) { throw err }
     const cache = server.cache({ segment: 'sessions', expiresIn: 3 * 24 * 60 * 60 * 1000 })
     server.app.cache = cache
@@ -46,17 +51,18 @@ exports.register = function (server, options, next) {
       }
     })
 
-    server.route({
-      method: 'POST',
-      path: '/login',
-      handler: login
-    })
-
-    server.route({
-      method: 'POST',
-      path: '/logout',
-      handler: logout
-    })
+    server.route([
+      { method: 'POST', path: '/register', handler: register },
+      { method: 'POST', path: '/login', handler: login },
+      {
+        method: 'POST',
+        path: '/logout',
+        config: {
+          auth: { mode: 'required' },
+          handler: logout
+        }
+      }
+    ])
   })
 
   next()
@@ -64,5 +70,5 @@ exports.register = function (server, options, next) {
 
 exports.register.attributes = {
   name: 'login',
-  dependencies: ['hapi-auth-cookie']
+  dependencies: ['hapi-boom-decorators', 'hapi-auth-cookie']
 }

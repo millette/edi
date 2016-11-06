@@ -220,7 +220,7 @@ bluebird@^2.9.30:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
 
-boom, boom@4.x.x:
+boom, boom@^4.1.0, boom@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-4.2.0.tgz#c1a74174b11fbba223f6162d4fd8851a1b82a536"
   dependencies:
@@ -1226,6 +1226,12 @@ hapi-auth-cookie:
     hoek "3.x.x"
     joi "7.x.x"
 
+hapi-boom-decorators:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/hapi-boom-decorators/-/hapi-boom-decorators-2.1.0.tgz#edec8f54ff4704d97dd24ab4538762865040bd78"
+  dependencies:
+    boom "^4.1.0"
+
 hapi-capitalize-modules@1.x.x:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/hapi-capitalize-modules/-/hapi-capitalize-modules-1.1.6.tgz#7991171415e15e6aa3231e64dda73c8146665318"
@@ -1344,7 +1350,7 @@ hoek@3.x.x:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-3.0.4.tgz#268adff66bb6695c69b4789a88b1e0847c3f3123"
 
-hoek@4.x.x, hoek@4.X.X:
+hoek@4.X.X, hoek@4.x.x:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.1.0.tgz#4a4557460f69842ed463aa00628cc26d2683afa7"
 
@@ -1648,7 +1654,7 @@ joi@8.x.x:
     moment "2.x.x"
     topo "2.x.x"
 
-joi@9.X.X, joi@9.x.x:
+joi@9.x.x, joi@9.X.X:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/joi/-/joi-9.2.0.tgz#3385ac790192130cbe230e802ec02c9215bbfeda"
   dependencies:

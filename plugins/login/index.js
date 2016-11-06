@@ -9,11 +9,11 @@ const db = nano('http://localhost:5990/')
 const auth = pify(db.auth, { multiArgs: true})
 const dbUsers = db.use('_users')
 const createUser = pify(dbUsers.insert, { multiArgs: true})
-
 const nextUrl = (request, reply) => reply.redirect(request.payload.next || '/')
+const selfDb = (cookie) => nano({ url: 'http://localhost:5990/_users', cookie: cookie })
 
 const userSelf = (name, cookie) => {
-  const dbSelf = nano({ url: 'http://localhost:5990/_users', cookie: cookie })
+  const dbSelf = selfDb(cookie)
   const getUser = pify(dbSelf.get, { multiArgs: true })
   return Promise.all([getUser('org.couchdb.user:' + name), cookie])
 }
@@ -45,7 +45,7 @@ const logout = function (request, reply) {
 }
 
 const dbDeleteUser = (request) => {
-  const dbSelf = nano({ url: 'http://localhost:5990/_users', cookie: request.auth.credentials.cookie })
+  const dbSelf = selfDb(request.auth.credentials.cookie)
   const destroyUser = pify(dbSelf.destroy, { multiArgs: true })
   return destroyUser(request.auth.credentials._id, request.auth.credentials._rev)
 }

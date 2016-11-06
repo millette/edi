@@ -32,7 +32,10 @@ const manifest = {
         }
       }
     },
-    { plugin: './plugins/login/index' },
+    {
+      plugin: './plugins/login/index',
+      options: { routes: { prefix: '/user' } }
+    },
     { plugin: 'hapi-context-app' },
     { plugin: 'hapi-context-credentials' },
     { plugin: 'h2o2' },

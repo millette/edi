@@ -6,11 +6,17 @@ const pify = require('pify')
 const nano = require('nano')
 
 const db = nano('http://localhost:5990/')
-const auth = pify(db.auth, { multiArgs: true})
+const auth = pify(db.auth, { multiArgs: true })
 const dbUsers = db.use('_users')
-const createUser = pify(dbUsers.insert, { multiArgs: true})
+const createUser = pify(dbUsers.insert, { multiArgs: true })
 const nextUrl = (request, reply) => reply.redirect(request.payload.next || '/')
 const selfDb = (cookie) => nano({ url: 'http://localhost:5990/_users', cookie: cookie })
+
+const makeAccount = (doc, cookie) => {
+  const body = _.pick(doc, ['_id', '_rev', 'name', 'roles', 'fullname'])
+  body.cookie = cookie
+  return body
+}
 
 const userSelf = (name, cookie) => {
   const dbSelf = selfDb(cookie)
@@ -18,10 +24,25 @@ const userSelf = (name, cookie) => {
   return Promise.all([getUser('org.couchdb.user:' + name), cookie])
 }
 
-const makeAccount = (doc, cookie) => {
-  const body = _.pick(doc, ['_id', '_rev', 'name', 'roles', 'fullname'])
-  body.cookie = cookie
-  return body
+const userEdit = (request) => {
+  const dbSelf = selfDb(request.auth.credentials.cookie)
+  const getUser = pify(dbSelf.get, { multiArgs: true })
+  const insertUser = pify(dbSelf.insert, { multiArgs: true })
+
+  return getUser(request.auth.credentials._id)
+    .then((result) => {
+      if (request.payload.fullname) { result[0].fullname = request.payload.fullname }
+      const cookie = result[1]['set-cookie'] ? result[1]['set-cookie'] : request.auth.credentials.cookie
+      const account = makeAccount(result[0], cookie)
+      request.server.app.cache.set(account.name, { account: account }, 0)
+      return insertUser(result[0])
+    })
+}
+
+const edit = function (request, reply) {
+  userEdit(request)
+    .then(() => nextUrl(request, reply))
+    .catch((err) => reply.boom(err.statusCode || 500, err))
 }
 
 const login = function (request, reply) {
@@ -95,6 +116,11 @@ exports.register = (server, options, next) => {
     server.route([
       { method: 'POST', path: '/register', handler: register },
       { method: 'POST', path: '/login', handler: login },
+      {
+        method: 'POST',
+        path: '/edit',
+        config: { auth: { mode: 'required' }, handler: edit }
+      },
       {
         method: 'POST',
         path: '/logout',

@@ -1,5 +1,6 @@
 'use strict'
 
+const Boom = require('boom')
 const pify = require('pify')
 const nano = require('nano')
 const db = nano('http://localhost:5990/')
@@ -11,16 +12,15 @@ const login = function (request, reply) {
   dbAuth(request.payload.name, request.payload.password)
     .then((result) => {
       const body = result[0]
-      const headers = result[1]
       delete body.ok
-      body.cookie = headers['set-cookie']
+      body.cookie = result[1]['set-cookie']
       request.server.app.cache.set(body.name, { account: body }, 0, (err) => {
         if (err) { return reply(err) }
         request.cookieAuth.set({ sid: body.name })
         reply.redirect(nextUrl)
       })
     })
-    .catch((err) => reply.redirect(nextUrl))
+    .catch((err) => reply(Boom.wrap(err, err.statusCode || 500)))
 }
 
 const logout = function (request, reply) {

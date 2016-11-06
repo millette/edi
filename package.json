@@ -21,6 +21,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
+    "boom": "^4.2.0",
     "confidence": "3.x.x",
     "glue": "4.x.x",
     "h2o2": "AVVS/h2o2",

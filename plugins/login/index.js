@@ -45,7 +45,7 @@ const userEdit = (request) => {
         })
       })
     })
-    .then((result) => insertUser(result))
+    .then(insertUser)
 }
 
 const edit = function (request, reply) {

@@ -34,7 +34,10 @@ const manifest = {
     },
     {
       plugin: {
-        options: { cookie: { password: Config.get('/cookie/password') } },
+        options: { cookie: {
+          password: Config.get('/cookie/password'),
+          secure: Config.get('/cookie/secure')
+        } },
         register: './plugins/login/index'
       },
       options: { routes: { prefix: '/user' } }

@@ -113,9 +113,7 @@ exports.register = (server, options, next) => {
     server.app.cache = cache
     server.auth.strategy('session', 'cookie', 'try', {
       password: options.cookie.password,
-      // password: Config.get('/cookie/password'),
-      // password: 'password-should-be-32-characters',
-      isSecure: false,
+      isSecure: options.cookie.secure,
       validateFunc: (request, session, callback) => {
         cache.get(session.sid, (err, cached) => {
           if (err) { return callback(err, false) }

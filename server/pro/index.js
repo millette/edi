@@ -1,6 +1,7 @@
 'use strict'
 
 const Wreck = require('wreck')
+const Config = require('../../config')
 
 exports.register = (server, options, next) => {
   server.views({
@@ -11,7 +12,7 @@ exports.register = (server, options, next) => {
   })
 
   const mapper = (request, callback) => {
-    const it = ['http://localhost:5990/ya']
+    const it = [Config.get('/db/url') + '/ya']
     if (request.params.pathy) { it.push(request.params.pathy) }
     callback(null, it.join('/') + '?include_docs=true', { accept: 'application/json' })
   }
@@ -22,9 +23,7 @@ exports.register = (server, options, next) => {
     Wreck.read(res, { json: true }, go.bind(null, res, request, reply))
   }
 
-  const go = (res, request, reply, err, payload) => {
-    reply(payload).headers = res.headers
-  }
+  const go = (res, request, reply, err, payload) => { reply(payload).headers = res.headers }
 
   const go2 = (res, request, reply, err, payload) => {
     let tpl

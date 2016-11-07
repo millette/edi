@@ -25,7 +25,10 @@ const config = {
     locales: ['fr', 'en']
   },
   db: { url: 'http://localhost:5990' },
-  cookie: { password: 'password-should-be-32-characters' },
+  cookie: {
+    password: 'password-should-be-32-characters',
+    secure: defFalse
+  },
   cache: { web: defFalse },
   port: {
     web: {

@@ -1,15 +1,10 @@
 # TODO
 
 ## Next
-* Login <https://github.com/hapijs/hapi-auth-cookie>
-* CouchDB users
-* Complete translations interface
+* Translations interface
+
 
 ## Details
-### Login
-* Login/password
-* Register
-
 ### JSON content
 * Dangling commas
 * Cache contents (linked, how?)
@@ -23,6 +18,7 @@
 
 ### User roles
 * Anon
+* Just register (new user, unconfirmed)
 * Connected
 * Actions
 

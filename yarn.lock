@@ -398,9 +398,9 @@ code-point-at@^1.0.0:
   dependencies:
     number-is-nan "^1.0.0"
 
-code@3.x.x:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/code/-/code-3.0.2.tgz#73265c70159dbce2b023c8fb6863e7b76704a4fc"
+code@4.x.x:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/code/-/code-4.0.0.tgz#ec7953fd79190052cea2569d63d7b4c0d47c0204"
   dependencies:
     hoek "4.x.x"
 
@@ -1350,7 +1350,7 @@ hoek@3.x.x:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-3.0.4.tgz#268adff66bb6695c69b4789a88b1e0847c3f3123"
 
-hoek@4.x.x, hoek@4.X.X:
+hoek@4.X.X, hoek@4.x.x:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.1.0.tgz#4a4557460f69842ed463aa00628cc26d2683afa7"
 

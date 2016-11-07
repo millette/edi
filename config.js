@@ -24,6 +24,8 @@ const config = {
     updateFiles: defTrue,
     locales: ['fr', 'en']
   },
+  db: { url: 'http://localhost:5990' },
+  cookie: { password: 'password-should-be-32-characters' },
   cache: { web: defFalse },
   port: {
     web: {

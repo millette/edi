@@ -33,7 +33,10 @@ const manifest = {
       }
     },
     {
-      plugin: './plugins/login/index',
+      plugin: {
+        options: { cookie: { password: Config.get('/cookie/password') } },
+        register: './plugins/login/index'
+      },
       options: { routes: { prefix: '/user' } }
     },
     { plugin: 'hapi-context-app' },

@@ -5,13 +5,14 @@ const Boom = require('boom')
 const _ = require('lodash')
 const pify = require('pify')
 const nano = require('nano')
+const Config = require('../../config')
 
-const db = nano('http://localhost:5990/')
+const db = nano(Config.get('/db/url'))
 const auth = pify(db.auth, { multiArgs: true })
 const dbUsers = db.use('_users')
 const createUser = pify(dbUsers.insert, { multiArgs: true })
 const nextUrl = (request, reply) => reply.redirect(request.payload.next || '/')
-const selfDb = (cookie) => nano({ url: 'http://localhost:5990/_users', cookie: cookie })
+const selfDb = (cookie) => nano({ url: Config.get('/db/url') + '/_users', cookie: cookie })
 
 const makeAccount = (doc, cookie) => {
   const body = _.pick(doc, ['_id', '_rev', 'name', 'roles', 'fullname'])
@@ -29,7 +30,6 @@ const userEdit = (request) => {
   const dbSelf = selfDb(request.auth.credentials.cookie)
   const getUser = pify(dbSelf.get, { multiArgs: true })
   const insertUser = pify(dbSelf.insert, { multiArgs: true })
-
   return getUser(request.auth.credentials._id)
     .then((result) => {
       if (request.payload.fullname) { result[0].fullname = request.payload.fullname }
@@ -93,11 +93,11 @@ const register = function (request, reply) {
   if (!request.payload.name) { return reply.notAcceptable('Name required.') }
   if (!request.payload.password) { return reply.notAcceptable('Password required.') }
   const doc = {
+    roles: [],
     _id: 'org.couchdb.user:' + request.payload.name,
     name: request.payload.name,
     password: request.payload.password,
-    type: 'user',
-    roles: ['mmm']
+    type: 'user'
   }
   if (request.payload.fullname) { doc.fullname = request.payload.fullname }
   createUser(doc)
@@ -106,18 +106,21 @@ const register = function (request, reply) {
 }
 
 exports.register = (server, options, next) => {
-  server.register([require('hapi-boom-decorators'), require('hapi-auth-cookie')], options, (err) => {
+  // console.log('OPTS:', options)
+  server.register(exports.register.attributes.dependencies.map((dep) => require(dep)), (err) => {
     if (err) { throw err }
     const cache = server.cache({ segment: 'sessions', expiresIn: 3 * 24 * 60 * 60 * 1000 })
     server.app.cache = cache
     server.auth.strategy('session', 'cookie', 'try', {
-      password: 'password-should-be-32-characters',
+      password: options.cookie.password,
+      // password: Config.get('/cookie/password'),
+      // password: 'password-should-be-32-characters',
       isSecure: false,
       validateFunc: (request, session, callback) => {
         cache.get(session.sid, (err, cached) => {
           if (err) { return callback(err, false) }
           if (!cached) { return callback(null, false) }
-          return callback(null, true, cached.account)
+          callback(null, true, cached.account)
         })
       }
     })
